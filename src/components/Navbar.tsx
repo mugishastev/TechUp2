@@ -1,4 +1,3 @@
-// NavbarPage.tsx
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import LoginForm from "./LoginForm";
@@ -13,19 +12,25 @@ interface NavbarPageProps {
   logoAlt?: string;
 }
 
+interface NavLink {
+  name: string;
+  icon: React.ComponentType<{ className?: string }>;
+  path: string;
+}
+
 const NavbarPage: React.FC<NavbarPageProps> = ({
   logoSrc = "logo.png",
   logoAlt = "logo",
 }) => {
-  const [modalOpen, setModalOpen] = useState(false);
-  const [languageDropdown, setLanguageDropdown] = useState(false);
-  const [currencyDropdown, setCurrencyDropdown] = useState(false);
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [languageDropdown, setLanguageDropdown] = useState<boolean>(false);
+  const [currencyDropdown, setCurrencyDropdown] = useState<boolean>(false);
 
   const handleNavClick = (item: string) => {
     console.log(`${item} clicked`);
   };
 
-  const navLinks = [
+  const navLinks: NavLink[] = [
     { name: "BLOG", icon: IoBookmarksOutline, path: "/Blogs" },
     { name: "FAQ", icon: HiSquare2Stack, path: "/FAQ" },
     { name: "CONTACT US", icon: CiMail, path: "/Contact" },

@@ -1,7 +1,6 @@
 // EcommerceShop.tsx
-import React, { useState } from "react";
+import { useState } from "react";
 import { Heart, ShoppingCart, Grid, List, ChevronDown, Star, X, Eye } from "lucide-react";
-import { Link } from "react-router-dom";
 import image1 from "../assets/image.png";
 import image2 from "../assets/image2.jpg";
 import image3 from "../assets/image3.jpg";

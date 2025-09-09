@@ -1,8 +1,7 @@
-import { useState } from 'react';
-import { ChevronLeft, ChevronRight, Heart, ShoppingCart, Search } from 'lucide-react';
+import React, { useState } from 'react';
+import { ChevronLeft, ChevronRight, ShoppingCart, Search } from 'lucide-react';
 import image1 from '../assets/image.png';
 import image2 from '../assets/image2.jpg';
-import image3 from '../assets/image3.jpg';
 import image4 from '../assets/image4.jpg';
 import image5 from '../assets/image5.jpg';
 import image6 from '../assets/image6.jpg';
@@ -17,6 +16,8 @@ interface Product {
   image: string;
   featured?: boolean;
   badge?: string;
+  bgColor?: string;
+  badgeColor?: string;
 }
 
 interface CarouselProps {
@@ -42,7 +43,7 @@ const featuredProductsData: Product[] = [
 ];
 
 const HotDealsCarousel: React.FC<CarouselProps> = ({ products, onProductClick }) => {
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState<number>(0);
 
   const nextProduct = () => setCurrentIndex((prev) => (prev + 1) % products.length);
   const prevProduct = () => setCurrentIndex((prev) => (prev - 1 + products.length) % products.length);
@@ -60,8 +61,12 @@ const HotDealsCarousel: React.FC<CarouselProps> = ({ products, onProductClick })
           <ChevronRight size={20} />
         </button>
 
-        <div className="text-center mt-8">
-          {product.badge && <div className="bg-green-500 text-white px-2 py-1 rounded absolute top-2 left-2 text-xs">{product.badge}</div>}
+        <div className="text-center mt-8 relative">
+          {product.badge && (
+            <div className={`absolute top-2 left-2 px-2 py-1 text-xs rounded ${product.badgeColor ? product.badgeColor : 'bg-green-500 text-white'}`}>
+              {product.badge}
+            </div>
+          )}
           <img src={product.image} alt={product.name} className="mx-auto w-full h-32 object-contain rounded-lg mb-2" />
           <p className="text-xs text-gray-500">{product.category}</p>
           <h4 className="font-semibold text-gray-800">{product.name}</h4>
@@ -82,7 +87,7 @@ const HotDealsCarousel: React.FC<CarouselProps> = ({ products, onProductClick })
 };
 
 const FeaturedProductsCarousel: React.FC<CarouselProps> = ({ products, onProductClick }) => {
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState<number>(0);
   const itemsPerPage = 4;
   const visibleProducts = products.slice(currentIndex, currentIndex + itemsPerPage);
 
@@ -100,7 +105,7 @@ const FeaturedProductsCarousel: React.FC<CarouselProps> = ({ products, onProduct
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {visibleProducts.map((p) => (
-          <div key={p.id} className="border rounded-lg p-2" onClick={() => onProductClick?.(p)}>
+          <div key={p.id} className="border rounded-lg p-2 relative" onClick={() => onProductClick?.(p)}>
             {p.badge && <div className="absolute bg-gray-500 text-white px-1 text-xs rounded">{p.badge}</div>}
             <img src={p.image} alt={p.name} className="w-full h-32 object-cover mb-2" />
             <p className="text-xs text-gray-500">{p.category}</p>
