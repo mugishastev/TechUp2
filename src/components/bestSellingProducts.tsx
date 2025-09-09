@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   ChevronLeft,
   ChevronRight,
@@ -7,14 +7,14 @@ import {
   Search,
   Shuffle,
 } from "lucide-react";
-import image1 from '../assets/image.png';
-import image2 from '../assets/image2.jpg';
-import image3 from '../assets/image3.jpg';
-import image4 from '../assets/image4.jpg';
-import image5 from '../assets/image5.jpg';
-import image6 from '../assets/image6.jpg';
+import image1 from "../assets/image.png";
+import image2 from "../assets/image2.jpg";
+import image3 from "../assets/image3.jpg";
+import image4 from "../assets/image4.jpg";
+import image5 from "../assets/image5.jpg";
+import image6 from "../assets/image6.jpg";
 
-// ✅ Product type
+// Product type
 interface Product {
   id: number;
   name: string;
@@ -27,7 +27,7 @@ interface Product {
   image: string;
 }
 
-// ✅ Sample product data
+// Sample data
 const bestSellingProducts: Product[] = [
   {
     id: 1,
@@ -36,7 +36,7 @@ const bestSellingProducts: Product[] = [
     price: "$499.00 - $599.00",
     discount: "17% OFF",
     badgeColor: "bg-green-500",
-    image:image1,
+    image: image1,
   },
   {
     id: 2,
@@ -105,6 +105,9 @@ const BestSellingProducts: React.FC = () => {
     }
   };
 
+  const renderPrice = (price: number | string) =>
+    typeof price === "number" ? `$${price.toFixed(2)}` : price;
+
   return (
     <div className="bg-white p-6 rounded-xl shadow max-w-6xl mx-auto">
       {/* Header */}
@@ -127,7 +130,9 @@ const BestSellingProducts: React.FC = () => {
             {/* Badge */}
             {(product.discount || product.badge) && (
               <span
-                className={`absolute top-3 left-3 text-white text-xs font-bold px-2 py-1 rounded ${product.badgeColor}`}
+                className={`absolute top-3 left-3 text-white text-xs font-bold px-2 py-1 rounded ${
+                  product.badgeColor || "bg-gray-500"
+                }`}
               >
                 {product.discount || product.badge}
               </span>
@@ -156,11 +161,11 @@ const BestSellingProducts: React.FC = () => {
             {/* Price */}
             <div className="flex items-center space-x-2 mt-1">
               <span className="text-lg font-bold text-gray-800">
-                ${product.price}
+                {renderPrice(product.price)}
               </span>
               {product.originalPrice && (
                 <span className="text-sm line-through text-gray-500">
-                  ${product.originalPrice}
+                  ${product.originalPrice.toFixed(2)}
                 </span>
               )}
             </div>
@@ -202,7 +207,7 @@ const BestSellingProducts: React.FC = () => {
         )}
       </div>
 
-      {/* ✅ Modal */}
+      {/* Modal */}
       {selectedProduct && (
         <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded-xl shadow-lg max-w-md w-full relative">
@@ -222,11 +227,11 @@ const BestSellingProducts: React.FC = () => {
               <p className="text-gray-500">{selectedProduct.category}</p>
               <div className="mt-2">
                 <span className="text-xl font-bold text-yellow-500">
-                  ${selectedProduct.price}
+                  {renderPrice(selectedProduct.price)}
                 </span>
                 {selectedProduct.originalPrice && (
                   <span className="text-sm line-through ml-2 text-gray-500">
-                    ${selectedProduct.originalPrice}
+                    ${selectedProduct.originalPrice.toFixed(2)}
                   </span>
                 )}
               </div>

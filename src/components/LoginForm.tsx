@@ -1,5 +1,5 @@
 // LoginForm.tsx
-import { useState, type ChangeEvent, type FormEvent } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -15,7 +15,11 @@ interface LoginFormData {
   password: string;
 }
 
-export default function LoginForm() {
+interface LoginFormProps {
+  onClose?: () => void; // optional callback to close modal
+}
+
+const LoginForm: React.FC<LoginFormProps> = ({ onClose }) => {
   const [formData, setFormData] = useState<LoginFormData>({
     username: "",
     email: "",
@@ -23,14 +27,14 @@ export default function LoginForm() {
   });
   const [loading, setLoading] = useState(false);
 
-  // e is typed for inputs
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  // Handle input changes
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value } as LoginFormData));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // e is typed for form submit; err is handled as unknown and narrowed
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  // Handle form submission
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
     const toastId = toast.loading("⏳ Processing your login...");
@@ -48,8 +52,10 @@ export default function LoginForm() {
         isLoading: false,
         autoClose: 3000,
       });
+
+      // Close modal if onClose is provided
+      onClose?.();
     } catch (error: unknown) {
-      // Narrow the error safely
       let msg = "Something went wrong";
       if (axios.isAxiosError(error)) {
         msg = (error.response?.data as any)?.message ?? error.message;
@@ -71,7 +77,7 @@ export default function LoginForm() {
     <>
       <form
         onSubmit={handleSubmit}
-        className="max-w-md mx-auto mt-20 bg-white p-8 rounded-2xl shadow-lg space-y-6"
+        className="max-w-md mx-auto mt-4 bg-white p-8 rounded-2xl shadow-lg space-y-6"
       >
         <h2 className="text-2xl font-bold text-center text-gray-800">Login</h2>
 
@@ -157,4 +163,6 @@ export default function LoginForm() {
       <ToastContainer position="top-right" />
     </>
   );
-}
+};
+
+export default LoginForm;

@@ -1,29 +1,53 @@
-// Contact Component
 import { useState } from "react";
 import { Phone, MapPin, Mail, Send } from "lucide-react";
 
-const Contact = () => {
-  const [formData, setFormData] = useState({
+// -------------------- Types --------------------
+interface FormData {
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+}
+
+interface ContactInfoItemProps {
+  icon: React.ReactNode;
+  label: string;
+  value: string | React.ReactNode;
+}
+
+// -------------------- Contact Info Item --------------------
+const ContactInfoItem: React.FC<ContactInfoItemProps> = ({ icon, label, value }) => (
+  <div className="flex items-center gap-4 p-4 bg-white bg-opacity-5 rounded-lg border border-opacity-10">
+    {icon}
+    <div>
+      <strong>{label}:</strong> {value}
+    </div>
+  </div>
+);
+
+// -------------------- Main Contact Component --------------------
+const Contact: React.FC = () => {
+  const [formData, setFormData] = useState<FormData>({
     name: "",
     email: "",
     subject: "",
     message: "",
   });
 
-  // For input and textarea change
-const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-  setFormData({
-    ...formData,
-    [e.target.name]: e.target.value,
-  });
-};
+  // Handle input changes
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
 
-// For form submit
-const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-  e.preventDefault();
-  alert("Thank you for your message! I will get back to you soon.");
-  setFormData({ name: "", email: "", subject: "", message: "" });
-};
+  // Handle form submission
+  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    alert("Thank you for your message! I will get back to you soon.");
+    setFormData({ name: "", email: "", subject: "", message: "" });
+  };
 
   return (
     <section className="text-black">
@@ -52,30 +76,17 @@ const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
               If you have a question or need help, do not hesitate to contact me. I'm here for you! Contact me for more information and support.
             </p>
             <div className="flex flex-col gap-6">
-              <div className="flex items-center gap-4 p-4 bg-white bg-opacity-5 rounded-lg border border-opacity-10">
-                <Phone size={24} />
-                <div>
-                  <strong>Name:</strong> baddest
-                </div>
-              </div>
-              <div className="flex items-center gap-4 p-4 bg-white bg-opacity-5 rounded-lg border border-opacity-10">
-                <MapPin size={24} />
-                <div>
-                  <strong>Address:</strong> Kicukiro, Kigali, Rwanda
-                </div>
-              </div>
-              <div className="flex items-center gap-4 p-4 bg-white bg-opacity-5 rounded-lg border border-opacity-10">
-                <Mail size={24} />
-                <div>
-                  <strong>Email:</strong>{" "}
-                  <a
-                    href="mailto:mugishas614@gmail.com"
-                    className="text-black hover:underline"
-                  >
+              <ContactInfoItem icon={<Phone size={24} />} label="Name" value="Baddest" />
+              <ContactInfoItem icon={<MapPin size={24} />} label="Address" value="Kicukiro, Kigali, Rwanda" />
+              <ContactInfoItem
+                icon={<Mail size={24} />}
+                label="Email"
+                value={
+                  <a href="mailto:mugishas614@gmail.com" className="text-black hover:underline">
                     mugishas614@gmail.com
                   </a>
-                </div>
-              </div>
+                }
+              />
             </div>
           </div>
 

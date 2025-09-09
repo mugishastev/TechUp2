@@ -1,19 +1,32 @@
 import { useState } from "react";
 import { ChevronLeft, ChevronRight, MessageCircle, Flame, Eye, Calendar, User } from "lucide-react";
 
+// Blog type
+interface Blog {
+  id: number;
+  title: string;
+  excerpt: string;
+  content: string;
+  date: string;
+  author: string;
+  comments: number;
+  views: number;
+  image: string;
+  category: string;
+  readTime: number;
+}
 
-
-
+// Dummy blog images
 const blogImages = [
   "https://i.pinimg.com/736x/02/6f/7d/026f7d09bd8243dc2d2f08088c1e7d3b.jpg",
-    "https://i.pinimg.com/736x/ef/48/35/ef48350f970b51cd4a68555fb900ed00.jpg",
+  "https://i.pinimg.com/736x/ef/48/35/ef48350f970b51cd4a68555fb900ed00.jpg",
   "https://i.pinimg.com/1200x/b8/41/65/b84165601e33a5aeeaa200536c59cf6f.jpg",
   "https://i.pinimg.com/1200x/b0/5e/65/b05e65e027bbc1c590ce4e283666b946.jpg",
   "https://i.pinimg.com/736x/58/76/51/587651fe682d179f77ceb31e1fddf67e.jpg",
 ];
 
-
-const blogs = Array.from({ length: 20 }, (_, i) => ({
+// Generate dummy blogs
+const blogs: Blog[] = Array.from({ length: 20 }, (_, i) => ({
   id: i + 1,
   title: `Blog Post ${i + 1}: Latest Tech Trends`,
   excerpt: "Discover the latest innovations and trends shaping the future of technology and digital commerce...",
@@ -27,9 +40,8 @@ const blogs = Array.from({ length: 20 }, (_, i) => ({
   readTime: Math.floor(Math.random() * 10) + 2,
 }));
 
-// Dummy sidebar data
 const recentBlogs = blogs.slice(-5);
-const popularBlogs = blogs.sort((a, b) => b.views - a.views).slice(0, 5);
+const popularBlogs = [...blogs].sort((a, b) => b.views - a.views).slice(0, 5);
 const commentsData = blogs
   .map((b) => ({
     blogId: b.id,
@@ -39,16 +51,13 @@ const commentsData = blogs
   .slice(0, 5);
 
 export default function BlogPage() {
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState<number>(1);
   const [hoveredCard, setHoveredCard] = useState<number | null>(null);
+  const [sidebarTab, setSidebarTab] = useState<"recent" | "popular" | "comments">("recent");
+
   const blogsPerPage = 6;
   const totalPages = Math.ceil(blogs.length / blogsPerPage);
 
-  const [sidebarTab, setSidebarTab] = useState<"recent" | "popular" | "comments">(
-    "recent"
-  );
-
-  // Get blogs for current page
   const startIndex = (currentPage - 1) * blogsPerPage;
   const currentBlogs = blogs.slice(startIndex, startIndex + blogsPerPage);
 
@@ -79,16 +88,16 @@ export default function BlogPage() {
                       src={blog.image}
                       alt={blog.title}
                       className={`w-full h-full object-cover transition-all duration-500 ${
-                        hoveredCard === blog.id
-                          ? 'scale-110 brightness-75'
-                          : 'scale-100 brightness-100'
+                        hoveredCard === blog.id ? "scale-110 brightness-75" : "scale-100 brightness-100"
                       }`}
                     />
-                    
+
                     {/* Overlay */}
-                    <div className={`absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent transition-opacity duration-300 ${
-                      hoveredCard === blog.id ? 'opacity-100' : 'opacity-0'
-                    }`}></div>
+                    <div
+                      className={`absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent transition-opacity duration-300 ${
+                        hoveredCard === blog.id ? "opacity-100" : "opacity-0"
+                      }`}
+                    ></div>
 
                     {/* Category Badge */}
                     <div className="absolute top-4 left-4">
@@ -98,11 +107,11 @@ export default function BlogPage() {
                     </div>
 
                     {/* Hover Content */}
-                    <div className={`absolute bottom-4 left-4 right-4 text-white transition-all duration-300 transform ${
-                      hoveredCard === blog.id 
-                        ? 'translate-y-0 opacity-100' 
-                        : 'translate-y-4 opacity-0'
-                    }`}>
+                    <div
+                      className={`absolute bottom-4 left-4 right-4 text-white transition-all duration-300 transform ${
+                        hoveredCard === blog.id ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
+                      }`}
+                    >
                       <p className="text-sm mb-2 line-clamp-2">{blog.content}</p>
                       <button className="bg-yellow-400 text-gray-800 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-yellow-300 transition-colors">
                         Read More
@@ -129,10 +138,8 @@ export default function BlogPage() {
                     <h2 className="text-xl font-bold text-gray-800 mb-3 line-clamp-2 group-hover:text-yellow-600 transition-colors">
                       {blog.title}
                     </h2>
-                    
-                    <p className="text-gray-600 text-sm mb-4 line-clamp-3">
-                      {blog.excerpt}
-                    </p>
+
+                    <p className="text-gray-600 text-sm mb-4 line-clamp-3">{blog.excerpt}</p>
 
                     <div className="flex justify-between items-center pt-4 border-t border-gray-100">
                       <div className="flex items-center gap-4 text-gray-500 text-sm">
@@ -145,17 +152,19 @@ export default function BlogPage() {
                           {blog.comments}
                         </span>
                       </div>
-                      
-                      <div className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                        hoveredCard === blog.id ? 'bg-yellow-400 scale-150' : 'bg-gray-300'
-                      }`}></div>
+
+                      <div
+                        className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                          hoveredCard === blog.id ? "bg-yellow-400 scale-150" : "bg-gray-300"
+                        }`}
+                      ></div>
                     </div>
                   </div>
                 </article>
               ))}
             </div>
 
-            {/* Enhanced Pagination */}
+            {/* Pagination */}
             <div className="flex justify-center items-center gap-2 mt-12">
               <button
                 className="flex items-center gap-2 px-4 py-2 rounded-lg bg-white shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 hover:-translate-y-0.5"
@@ -194,60 +203,37 @@ export default function BlogPage() {
             </div>
           </div>
 
-          {/* Enhanced Sidebar */}
+          {/* Sidebar */}
           <div className="space-y-6">
             {/* Tabs */}
             <div className="bg-white rounded-2xl shadow-lg p-2">
               <div className="grid grid-cols-3 gap-1">
-                <button
-                  onClick={() => setSidebarTab("recent")}
-                  className={`py-3 px-2 rounded-xl text-sm font-medium transition-all duration-200 ${
-                    sidebarTab === "recent"
-                      ? "bg-yellow-400 text-gray-800 shadow-md"
-                      : "text-gray-600 hover:bg-gray-50"
-                  }`}
-                >
-                  Recent
-                </button>
-                <button
-                  onClick={() => setSidebarTab("popular")}
-                  className={`py-3 px-2 rounded-xl text-sm font-medium transition-all duration-200 ${
-                    sidebarTab === "popular"
-                      ? "bg-yellow-400 text-gray-800 shadow-md"
-                      : "text-gray-600 hover:bg-gray-50"
-                  }`}
-                >
-                  Popular
-                </button>
-                <button
-                  onClick={() => setSidebarTab("comments")}
-                  className={`py-3 px-2 rounded-xl text-sm font-medium transition-all duration-200 ${
-                    sidebarTab === "comments"
-                      ? "bg-yellow-400 text-gray-800 shadow-md"
-                      : "text-gray-600 hover:bg-gray-50"
-                  }`}
-                >
-                  Comments
-                </button>
+                {["recent", "popular", "comments"].map((tab) => (
+                  <button
+                    key={tab}
+                    onClick={() => setSidebarTab(tab as "recent" | "popular" | "comments")}
+                    className={`py-3 px-2 rounded-xl text-sm font-medium transition-all duration-200 ${
+                      sidebarTab === tab
+                        ? "bg-yellow-400 text-gray-800 shadow-md"
+                        : "text-gray-600 hover:bg-gray-50"
+                    }`}
+                  >
+                    {tab.charAt(0).toUpperCase() + tab.slice(1)}
+                  </button>
+                ))}
               </div>
             </div>
 
             {/* Tab Content */}
             <div className="bg-white shadow-lg rounded-2xl p-6">
-              <h3 className="font-bold text-gray-800 mb-4 capitalize">
-                {sidebarTab} Posts
-              </h3>
-              
+              <h3 className="font-bold text-gray-800 mb-4 capitalize">{sidebarTab} Posts</h3>
+
               <div className="space-y-4">
                 {sidebarTab === "recent" &&
                   recentBlogs.map((b) => (
                     <div key={b.id} className="group cursor-pointer">
                       <div className="flex gap-3 p-3 rounded-lg hover:bg-gray-50 transition-colors">
-                        <img 
-                          src={b.image} 
-                          alt={b.title}
-                          className="w-12 h-12 rounded-lg object-cover"
-                        />
+                        <img src={b.image} alt={b.title} className="w-12 h-12 rounded-lg object-cover" />
                         <div className="flex-1">
                           <p className="text-sm font-medium text-gray-800 group-hover:text-yellow-600 transition-colors line-clamp-2">
                             {b.title}
@@ -262,21 +248,12 @@ export default function BlogPage() {
                   popularBlogs.map((b) => (
                     <div key={b.id} className="group cursor-pointer">
                       <div className="flex gap-3 p-3 rounded-lg hover:bg-gray-50 transition-colors">
-                        <img 
-                          src={b.image} 
-                          alt={b.title}
-                          className="w-12 h-12 rounded-lg object-cover"
-                        />
+                        <Flame size={14} className="text-orange-500 mt-0.5 flex-shrink-0" />
                         <div className="flex-1">
-                          <div className="flex items-start gap-2">
-                            <Flame size={14} className="text-orange-500 mt-0.5 flex-shrink-0" />
-                            <div>
-                              <p className="text-sm font-medium text-gray-800 group-hover:text-yellow-600 transition-colors line-clamp-2">
-                                {b.title}
-                              </p>
-                              <p className="text-xs text-gray-500 mt-1">{b.views} views</p>
-                            </div>
-                          </div>
+                          <p className="text-sm font-medium text-gray-800 group-hover:text-yellow-600 transition-colors line-clamp-2">
+                            {b.title}
+                          </p>
+                          <p className="text-xs text-gray-500 mt-1">{b.views} views</p>
                         </div>
                       </div>
                     </div>
@@ -292,13 +269,13 @@ export default function BlogPage() {
               </div>
             </div>
 
-            {/* Newsletter Signup */}
+            {/* Newsletter */}
             <div className="bg-gradient-to-br from-yellow-400 to-yellow-500 rounded-2xl p-6 text-gray-800">
               <h3 className="font-bold mb-2">Stay Updated!</h3>
               <p className="text-sm mb-4">Get the latest posts delivered to your inbox.</p>
               <div className="space-y-2">
-                <input 
-                  type="email" 
+                <input
+                  type="email"
                   placeholder="Your email address"
                   className="w-full px-3 py-2 rounded-lg border-0 focus:ring-2 focus:ring-white text-sm"
                 />
