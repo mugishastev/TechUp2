@@ -1,19 +1,15 @@
-import React, { useState } from "react";
-import { ChevronLeft, ChevronRight, MessageCircle, Flame, Clock, Eye, Calendar, User } from "lucide-react";
+import { useState } from "react";
+import { ChevronLeft, ChevronRight, MessageCircle, Flame, Eye, Calendar, User } from "lucide-react";
 
-import image2 from '../assets/blog1.jpg';
-import image3 from '../assets/blog2.jpg';
-import image4 from '../assets/blog3.jpg';
-import image5 from '../assets/blog4.jpg';
-import image6 from '../assets/blog1.jpg';
+
 
 
 const blogImages = [
-  image2,
-  image3,
-  image4,
-  image5,
-  image6,
+  "https://i.pinimg.com/736x/02/6f/7d/026f7d09bd8243dc2d2f08088c1e7d3b.jpg",
+    "https://i.pinimg.com/736x/ef/48/35/ef48350f970b51cd4a68555fb900ed00.jpg",
+  "https://i.pinimg.com/1200x/b8/41/65/b84165601e33a5aeeaa200536c59cf6f.jpg",
+  "https://i.pinimg.com/1200x/b0/5e/65/b05e65e027bbc1c590ce4e283666b946.jpg",
+  "https://i.pinimg.com/736x/58/76/51/587651fe682d179f77ceb31e1fddf67e.jpg",
 ];
 
 

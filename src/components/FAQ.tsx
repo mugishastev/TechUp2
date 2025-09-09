@@ -1,5 +1,4 @@
 import  { useState } from 'react';
-import electronicsSlider from '../assets/electronics-slider-1.png';
 import { Link } from "react-router-dom";
 
 const FAQItem = ({ question, answer }: { question: string; answer: string }) => {
@@ -66,13 +65,13 @@ const FAQSection = () => {
      <div
           className="text-center mb-12 relative min-h-[500px] min-w-[900px]"
           style={{
-            backgroundImage: `url(${electronicsSlider})`,
+            backgroundImage: `url(https://i.pinimg.com/1200x/24/41/60/24416046889c9dc2750404cb642e735e.jpg)`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
           }}
         >
           <div className="bg-opacity-50 h-full flex flex-col items-center justify-center">
-            <h1 className="text-7xl mt-47 font-bold text-black">FAQ</h1>
+            <h1 className="text-7xl mt-47 font-bold text-white">FAQ</h1>
             <p className="text-lg text-white"><Link to="Home">Home</Link>/FAQ</p>
           </div>
         </div>
